@@ -10,9 +10,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { config } from './config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './databases/config';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './infrastructures/jwt/jwt.strategy';
 
 @Module({
   imports: [
