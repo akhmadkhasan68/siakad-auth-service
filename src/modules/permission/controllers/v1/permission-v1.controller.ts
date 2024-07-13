@@ -6,7 +6,6 @@ import { PermissionService } from "../../services/permission.service";
 import { PermissionPaginateV1ResponseDto } from "../../dto/v1/index/permission-paginate-v1.response";
 import { PermissionPaginateV1RequestDto } from "../../dto/v1/index/permission-paginate-v1.request";
 import { IPaginateResponse } from "src/common/interfaces/index.interface";
-import { IPermission } from "src/databases/interaces/permission.interface";
 
 @Controller({
     version: '1',

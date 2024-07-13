@@ -1,5 +1,4 @@
 import { IBaseEntity } from "./base.interface";
-import { IUser } from "./user.interface";
 
 export interface IOtp extends IBaseEntity {
     code: string;

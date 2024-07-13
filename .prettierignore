@@ -1,0 +1,7 @@
+*.yaml
+Dockerfile.api
+Dockerfile.backoffice
+.git
+node_modules
+**/dist
+**/public

@@ -1,0 +1,15 @@
+{
+    "files.eol": "\n",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.organizeImports": "explicit",
+        "source.sortMembers": "explicit"
+    },
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false
+}

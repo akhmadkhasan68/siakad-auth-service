@@ -1,4 +1,4 @@
-import { Expose, Type } from "class-transformer";
+import { Type } from "class-transformer";
 import { IsOptional } from "class-validator";
 import { IPaginateRequest, ISortRequest } from "../interfaces/index.interface";
 import { OrderDirectionType } from "../enums/index.enum";
