@@ -74,6 +74,10 @@ export class PermissionService extends PaginateService {
         };
     }
 
+    async findOneById(id: string): Promise<IPermission> {
+        return await this.permissionRepository.findOneById(id);
+    }
+
     async getPermissionsByRoleIds(roleIds: string[]): Promise<IPermission[]> {
         return await this.permissionRepository.getPermissionsByRoleIds(roleIds);
     }
