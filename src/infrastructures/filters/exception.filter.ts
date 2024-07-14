@@ -16,10 +16,8 @@ import { EntityNotFoundError } from 'typeorm';
 
 @Catch()
 export class GlobalExceptionFilter implements RpcExceptionFilter {
-    catch(exception: any, _: ArgumentsHost): Observable<any> {
-        const exceptionResponse = exception.getResponse();
-        const data = exceptionResponse['data'] ?? null;
-        const message = exceptionResponse['message'] ?? 'Internal Server Error';
+    catch(exception: Error, _: ArgumentsHost): Observable<any> {
+        const message = exception.message ?? 'Internal Server Error';
 
         switch (true) {
             case exception instanceof UnprocessableEntityException:
@@ -28,7 +26,7 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                         code: HttpStatus.UNPROCESSABLE_ENTITY,
                         message,
                         errors: exception.getResponse(),
-                        data,
+                        data: null,
                     };
                 });
             case exception instanceof UnauthorizedException:
@@ -37,7 +35,7 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                         code: HttpStatus.UNAUTHORIZED,
                         message,
                         errors: null,
-                        data,
+                        data: null,
                     };
                 });
             case exception instanceof ForbiddenException:
@@ -46,7 +44,7 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                         code: HttpStatus.FORBIDDEN,
                         message,
                         errors: null,
-                        data,
+                        data: null,
                     };
                 });
             case exception instanceof NotFoundException:
@@ -55,7 +53,7 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                         code: HttpStatus.NOT_FOUND,
                         message,
                         errors: null,
-                        data,
+                        data: null,
                     };
                 });
             case exception instanceof InternalServerErrorException:
@@ -64,7 +62,7 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                         code: HttpStatus.INTERNAL_SERVER_ERROR,
                         message,
                         errors: null,
-                        data,
+                        data: null,
                     };
                 });
             case exception instanceof BadRequestException:
@@ -73,7 +71,7 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                         code: HttpStatus.BAD_REQUEST,
                         message,
                         errors: null,
-                        data,
+                        data: null,
                     };
                 });
             case exception instanceof EntityNotFoundError:
@@ -82,7 +80,7 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                         code: HttpStatus.NOT_FOUND,
                         message,
                         errors: null,
-                        data,
+                        data: null,
                     };
                 });
             default:
@@ -91,7 +89,7 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                         code: HttpStatus.INTERNAL_SERVER_ERROR,
                         message,
                         errors: null,
-                        data,
+                        data: null,
                     };
                 });
         }
