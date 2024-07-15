@@ -10,4 +10,12 @@ export class RoleRepository {
         @InjectRepository(Role)
         readonly roleRepository: Repository<IRole>,
     ) {}
+
+    async findOneById(id: string): Promise<IRole> {
+        return this.roleRepository.findOneOrFail({
+            where: {
+                id,
+            },
+        });
+    }
 }

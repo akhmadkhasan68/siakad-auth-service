@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { IApiResponse } from 'src/common/interfaces/response.interface';
+import { config } from 'src/config';
 import { EntityNotFoundError } from 'typeorm';
 
 @Catch()
@@ -78,7 +79,10 @@ export class GlobalExceptionFilter implements RpcExceptionFilter {
                 return throwError((): IApiResponse<null> => {
                     return {
                         code: HttpStatus.NOT_FOUND,
-                        message,
+                        message:
+                            config.app.env === 'development'
+                                ? message
+                                : 'Data not found',
                         errors: null,
                         data: null,
                     };

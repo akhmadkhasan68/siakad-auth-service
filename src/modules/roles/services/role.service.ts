@@ -63,4 +63,8 @@ export class RoleService extends PaginateService {
             meta,
         };
     }
+
+    async findOneById(id: string): Promise<IRole> {
+        return await this.roleRepository.findOneById(id);
+    }
 }

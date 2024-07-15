@@ -23,4 +23,11 @@ export class RoleV1Controller {
             meta,
         };
     }
+
+    @MessagePattern('auth:roles:findOneById')
+    async findOneById(@Payload() id: string): Promise<RoleV1ResponseDto> {
+        const data = await this.roleService.findOneById(id);
+
+        return RoleV1ResponseDto.toResponse(data);
+    }
 }
