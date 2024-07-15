@@ -1,13 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { RoleGroupEnum } from 'src/common/enums/role-group.enum';
 import { IPaginateResponse } from 'src/common/interfaces/index.interface';
+import { convertToUpperSnakeCase } from 'src/common/utils/string';
 import { IRole } from 'src/databases/interaces/role.interface';
 import { PaginateService } from 'src/infrastructures/services/paginate.service';
-import { RolePaginateV1RequestDto } from '../dto/v1/index/role-paginate-v1.request';
+import { CreateRoleV1RequestDto } from '../dto/requests/v1/create/create-role-v1.request';
+import { RolePaginateV1RequestDto } from '../dto/requests/v1/index/role-paginate-v1.request';
+import { RoleGroupRepository } from '../repositories/role-group.repository';
 import { RoleRepository } from '../repositories/role.repository';
 
 @Injectable()
 export class RoleService extends PaginateService {
-    constructor(private readonly roleRepository: RoleRepository) {
+    constructor(
+        private readonly roleRepository: RoleRepository,
+        private readonly roleGroupRepository: RoleGroupRepository,
+    ) {
         super();
     }
 
@@ -65,6 +72,27 @@ export class RoleService extends PaginateService {
     }
 
     async findOneById(id: string): Promise<IRole> {
-        return await this.roleRepository.findOneById(id);
+        return await this.roleRepository.findOneById(id, true);
+    }
+
+    async create(payload: CreateRoleV1RequestDto): Promise<IRole> {
+        const key = convertToUpperSnakeCase(payload.name);
+        const roleGroupAdmin = await this.roleGroupRepository.findOneByKey(
+            RoleGroupEnum.Admin,
+        );
+
+        const check = await this.roleRepository.findOneByKey(key);
+        if (check) {
+            throw new BadRequestException('Role already exists');
+        }
+
+        const data: IRole = {
+            name: payload.name,
+            key,
+            description: payload.description,
+            roleGroup: roleGroupAdmin,
+        };
+
+        return await this.roleRepository.create(data);
     }
 }
