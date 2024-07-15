@@ -6,6 +6,7 @@ import { IRole } from 'src/databases/interaces/role.interface';
 import { PaginateService } from 'src/infrastructures/services/paginate.service';
 import { CreateRoleV1RequestDto } from '../dto/requests/v1/create/create-role-v1.request';
 import { RolePaginateV1RequestDto } from '../dto/requests/v1/index/role-paginate-v1.request';
+import { UpdateRoleV1RequestDto } from '../dto/requests/v1/update/update-role-v1.request';
 import { RoleGroupRepository } from '../repositories/role-group.repository';
 import { RoleRepository } from '../repositories/role.repository';
 
@@ -94,5 +95,26 @@ export class RoleService extends PaginateService {
         };
 
         return await this.roleRepository.create(data);
+    }
+
+    async update(payload: UpdateRoleV1RequestDto): Promise<IRole> {
+        const role = await this.roleRepository.findOneById(payload.id, true);
+
+        const key = convertToUpperSnakeCase(payload.name);
+        const roleGroupAdmin = await this.roleGroupRepository.findOneByKey(
+            RoleGroupEnum.Admin,
+        );
+
+        const check = await this.roleRepository.findOneByKey(key);
+        if (check && check.id !== payload.id) {
+            throw new BadRequestException('Role already exists');
+        }
+
+        role.name = payload.name;
+        role.key = key;
+        role.description = payload.description;
+        role.roleGroup = roleGroupAdmin;
+
+        return await this.roleRepository.update(payload.id, role);
     }
 }

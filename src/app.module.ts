@@ -1,41 +1,36 @@
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { config } from './config';
+import { databaseConfig } from './databases/config';
+import { ForgotPasswordModule } from './modules/forgot-password/forgot-password.module';
 import { LoginModule } from './modules/login/login.module';
+import { OtpModule } from './modules/otp/otp.module';
+import { PermissionModule } from './modules/permission/permission.module';
 import { RegisterModule } from './modules/register/register.module';
 import { RolesModule } from './modules/roles/roles.module';
-import { PermissionModule } from './modules/permission/permission.module';
-import { OtpModule } from './modules/otp/otp.module';
-import { ForgotPasswordModule } from './modules/forgot-password/forgot-password.module';
-import { MainController } from './main.controller';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { config } from './config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { databaseConfig } from './databases/config';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(databaseConfig),
-    ClientsModule.register([
-      {
-        name: 'NATS_SERVICE',
-        transport: Transport.NATS,
-        options: {
-          url: config.nats.url,
-        },
-      },
-    ]),
-    LoginModule,
-    RegisterModule,
-    RolesModule,
-    PermissionModule,
-    OtpModule,
-    ForgotPasswordModule,
-  ],
-  controllers: [MainController],
-  providers: [
-    
-  ],
-  exports: [
-    ClientsModule,
-  ]
+    imports: [
+        TypeOrmModule.forRoot(databaseConfig),
+        ClientsModule.register([
+            {
+                name: 'NATS_SERVICE',
+                transport: Transport.NATS,
+                options: {
+                    url: config.nats.url,
+                },
+            },
+        ]),
+        LoginModule,
+        RegisterModule,
+        RolesModule,
+        PermissionModule,
+        OtpModule,
+        ForgotPasswordModule,
+    ],
+    controllers: [],
+    providers: [],
+    exports: [ClientsModule],
 })
 export class AppModule {}

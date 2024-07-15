@@ -42,4 +42,10 @@ export class RoleRepository {
     async create(payload: IRole): Promise<IRole> {
         return this.roleRepository.save(payload);
     }
+
+    async update(id: string, payload: IRole): Promise<IRole> {
+        await this.roleRepository.update(id, payload);
+
+        return this.findOneById(id);
+    }
 }

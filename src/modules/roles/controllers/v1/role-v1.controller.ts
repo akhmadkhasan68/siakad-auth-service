@@ -3,6 +3,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { IPaginateResponse } from 'src/common/interfaces/index.interface';
 import { CreateRoleV1RequestDto } from '../../dto/requests/v1/create/create-role-v1.request';
 import { RolePaginateV1RequestDto } from '../../dto/requests/v1/index/role-paginate-v1.request';
+import { UpdateRoleV1RequestDto } from '../../dto/requests/v1/update/update-role-v1.request';
 import { RoleV1ResponseDto } from '../../dto/responses/v1/role-v1.response';
 import { RoleService } from '../../services/role.service';
 
@@ -37,6 +38,15 @@ export class RoleV1Controller {
         @Payload() payload: CreateRoleV1RequestDto,
     ): Promise<RoleV1ResponseDto> {
         const data = await this.roleService.create(payload);
+
+        return RoleV1ResponseDto.toResponse(data);
+    }
+
+    @MessagePattern('auth:roles:update')
+    async update(
+        @Payload() payload: UpdateRoleV1RequestDto,
+    ): Promise<RoleV1ResponseDto> {
+        const data = await this.roleService.update(payload);
 
         return RoleV1ResponseDto.toResponse(data);
     }
