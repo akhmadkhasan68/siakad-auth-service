@@ -11,12 +11,20 @@ export class RoleRepository {
         readonly roleRepository: Repository<IRole>,
     ) {}
 
-    async findOneById(id: string, throwError?: boolean): Promise<IRole> {
+    async findOneById(
+        id: string,
+        throwError?: boolean,
+        withRelations?: boolean,
+    ): Promise<IRole> {
         const options: FindOneOptions<IRole> = {
             where: {
                 id,
             },
         };
+
+        if (withRelations) {
+            options.relations = ['roleGroup', 'users', 'permissions'];
+        }
 
         if (throwError) {
             return this.roleRepository.findOneOrFail(options);
@@ -25,12 +33,20 @@ export class RoleRepository {
         return this.roleRepository.findOne(options);
     }
 
-    async findOneByKey(key: string, throwError?: boolean): Promise<IRole> {
+    async findOneByKey(
+        key: string,
+        throwError?: boolean,
+        withRelations?: boolean,
+    ): Promise<IRole> {
         const options: FindOneOptions<IRole> = {
             where: {
                 key,
             },
         };
+
+        if (withRelations) {
+            options.relations = ['roleGroup', 'permissions', 'users'];
+        }
 
         if (throwError) {
             return this.roleRepository.findOneOrFail(options);
@@ -47,5 +63,11 @@ export class RoleRepository {
         await this.roleRepository.update(id, payload);
 
         return this.findOneById(id);
+    }
+
+    async delete(id: string): Promise<boolean> {
+        const deletedData = await this.roleRepository.softDelete(id);
+
+        return deletedData.affected > 0;
     }
 }

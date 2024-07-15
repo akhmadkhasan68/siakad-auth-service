@@ -73,7 +73,7 @@ export class RoleService extends PaginateService {
     }
 
     async findOneById(id: string): Promise<IRole> {
-        return await this.roleRepository.findOneById(id, true);
+        return await this.roleRepository.findOneById(id, true, true);
     }
 
     async create(payload: CreateRoleV1RequestDto): Promise<IRole> {
@@ -116,5 +116,15 @@ export class RoleService extends PaginateService {
         role.roleGroup = roleGroupAdmin;
 
         return await this.roleRepository.update(payload.id, role);
+    }
+
+    async delete(id: string): Promise<boolean> {
+        const role = await this.roleRepository.findOneById(id, true, true);
+
+        if (role.permissions.length > 0 || role.users.length > 0) {
+            throw new BadRequestException('Role has been used');
+        }
+
+        return await this.roleRepository.delete(id);
     }
 }

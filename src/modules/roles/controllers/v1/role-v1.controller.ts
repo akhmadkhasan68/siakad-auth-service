@@ -50,4 +50,11 @@ export class RoleV1Controller {
 
         return RoleV1ResponseDto.toResponse(data);
     }
+
+    @MessagePattern('auth:roles:delete')
+    async delete(@Payload() id: string): Promise<boolean> {
+        const data = await this.roleService.delete(id);
+
+        return data;
+    }
 }
