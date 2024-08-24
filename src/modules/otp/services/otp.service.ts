@@ -5,6 +5,7 @@ import { config } from 'src/config';
 import { Otp } from 'src/databases/entities/otp.entity';
 import { IOtp } from 'src/databases/interaces/otp.interface';
 import { UserRepository } from 'src/modules/login/repositories/user.repository';
+import { EmailV1Service } from 'src/modules/notification/services/v1/email-v1.service';
 import { RequestOtpPayloadV1Dto } from '../dto/v1/request-otp/request-otp-payload-v1.dto';
 import { OtpRepository } from '../repositories/otp.repository';
 
@@ -13,6 +14,7 @@ export class OtpService {
     constructor(
         private readonly otpRepository: OtpRepository,
         private readonly userRepository: UserRepository,
+        private readonly emailService: EmailV1Service,
     ) {}
 
     async requestOtp(data: RequestOtpPayloadV1Dto): Promise<IOtp> {
@@ -54,6 +56,15 @@ export class OtpService {
         otp.email = data.email;
         otp.expiredAt = expiredAt;
         otp.retries = currentRequest ? currentRequest.retries + 1 : 1;
+
+        // Send email
+        await this.emailService.SendEmailOTP({
+            email: data.email,
+            data: {
+                otp: code,
+                otpExpiryInMinutes: config.otp.expirationTimeInMinutes,
+            },
+        });
 
         // Save to database
         return await this.otpRepository.create(otp);
