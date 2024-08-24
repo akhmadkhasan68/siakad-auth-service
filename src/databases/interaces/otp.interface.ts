@@ -1,4 +1,4 @@
-import { IBaseEntity } from "./base.interface";
+import { IBaseEntity } from './base.interface';
 
 export interface IOtp extends IBaseEntity {
     code: string;
@@ -7,4 +7,5 @@ export interface IOtp extends IBaseEntity {
     isExpired: boolean;
     verifiedAt: Date;
     isVerified: boolean;
+    retries: number;
 }

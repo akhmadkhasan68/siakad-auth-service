@@ -1,5 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { ServiceCommands } from 'src/common/constants/service-command.constant';
 import { IPaginateResponse } from 'src/common/interfaces/index.interface';
 import { CreateRoleV1RequestDto } from '../../dto/requests/v1/create/create-role-v1.request';
 import { RolePaginateV1RequestDto } from '../../dto/requests/v1/index/role-paginate-v1.request';
@@ -14,7 +15,7 @@ import { RoleService } from '../../services/role.service';
 export class RoleV1Controller {
     constructor(private readonly roleService: RoleService) {}
 
-    @MessagePattern('auth:roles:fetchPaginate')
+    @MessagePattern(ServiceCommands.V1.Roles.FetchPaginate)
     async fetchPaginate(
         @Payload() payload: RolePaginateV1RequestDto,
     ): Promise<IPaginateResponse<RoleV1ResponseDto>> {
@@ -26,14 +27,14 @@ export class RoleV1Controller {
         };
     }
 
-    @MessagePattern('auth:roles:findOneById')
+    @MessagePattern(ServiceCommands.V1.Roles.FindOneById)
     async findOneById(@Payload() id: string): Promise<RoleV1ResponseDto> {
         const data = await this.roleService.findOneById(id);
 
         return RoleV1ResponseDto.toResponse(data);
     }
 
-    @MessagePattern('auth:roles:create')
+    @MessagePattern(ServiceCommands.V1.Roles.Create)
     async create(
         @Payload() payload: CreateRoleV1RequestDto,
     ): Promise<RoleV1ResponseDto> {
@@ -42,7 +43,7 @@ export class RoleV1Controller {
         return RoleV1ResponseDto.toResponse(data);
     }
 
-    @MessagePattern('auth:roles:update')
+    @MessagePattern(ServiceCommands.V1.Roles.Update)
     async update(
         @Payload() payload: UpdateRoleV1RequestDto,
     ): Promise<RoleV1ResponseDto> {
@@ -51,7 +52,7 @@ export class RoleV1Controller {
         return RoleV1ResponseDto.toResponse(data);
     }
 
-    @MessagePattern('auth:roles:delete')
+    @MessagePattern(ServiceCommands.V1.Roles.Delete)
     async delete(@Payload() id: string): Promise<boolean> {
         const data = await this.roleService.delete(id);
 

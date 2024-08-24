@@ -37,4 +37,9 @@ export class Otp extends BaseEntity implements IOtp {
         default: false,
     })
     isVerified: boolean;
+
+    @Column({
+        default: 1,
+    })
+    retries: number;
 }

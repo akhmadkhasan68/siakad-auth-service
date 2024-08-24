@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServiceClientEnum } from './common/enums/service-client.enum';
 import { config } from './config';
 import { databaseConfig } from './databases/config';
 import { ForgotPasswordModule } from './modules/forgot-password/forgot-password.module';
@@ -15,7 +16,7 @@ import { RolesModule } from './modules/roles/roles.module';
         TypeOrmModule.forRoot(databaseConfig),
         ClientsModule.register([
             {
-                name: 'NATS_SERVICE',
+                name: ServiceClientEnum.NotificationService,
                 transport: Transport.NATS,
                 options: {
                     url: config.nats.url,

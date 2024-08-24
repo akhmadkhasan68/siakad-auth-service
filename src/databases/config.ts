@@ -1,7 +1,7 @@
 import { config } from 'src/config';
 import { DataSourceOptions } from 'typeorm';
 import { Otp } from './entities/otp.entity';
-import { PasswordResetToken } from './entities/password-reset-token.interface';
+import { PasswordResetToken } from './entities/password-reset-token.entity';
 import { Permission } from './entities/permission.entity';
 import { RoleGroup } from './entities/role-group.entity';
 import { RolePermission } from './entities/role-permission.entity';

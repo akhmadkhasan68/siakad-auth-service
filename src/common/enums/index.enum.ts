@@ -4,3 +4,8 @@ export enum OrderDirectionEnum {
 }
 
 export type OrderDirectionType = 'ASC' | 'DESC';
+
+export enum SortingEnum {
+    Latest = 'latest',
+    Oldest = 'oldest',
+}

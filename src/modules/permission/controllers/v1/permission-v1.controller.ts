@@ -1,5 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { ServiceCommands } from 'src/common/constants/service-command.constant';
 import { IPaginateResponse } from 'src/common/interfaces/index.interface';
 import { GetPermissionsByRoleIdsV1RequestDto } from '../../dto/v1/get-permissions-by-role-ids/get-permissions-by-role-ids-v1.request';
 import { GetPermissionsByRoleIdsV1ResponseDto } from '../../dto/v1/get-permissions-by-role-ids/get-permissions-by-role-ids-v1.response';
@@ -14,7 +15,7 @@ import { PermissionService } from '../../services/permission.service';
 export class PermissionV1Controller {
     constructor(private readonly permissionService: PermissionService) {}
 
-    @MessagePattern('auth:permissions:fetchPaginate')
+    @MessagePattern(ServiceCommands.V1.Permissions.FetchPaginate)
     async fetchPaginate(
         @Payload() payload: PermissionPaginateV1RequestDto,
     ): Promise<IPaginateResponse<PermissionV1ResponseDto>> {
@@ -27,14 +28,14 @@ export class PermissionV1Controller {
         };
     }
 
-    @MessagePattern('auth:permissions:findOneById')
+    @MessagePattern(ServiceCommands.V1.Permissions.FindOneById)
     async findOneById(@Payload() id: string): Promise<PermissionV1ResponseDto> {
         const data = await this.permissionService.findOneById(id);
 
         return PermissionV1ResponseDto.toResponse(data);
     }
 
-    @MessagePattern('auth:permissions:GetPermissionsByRoleIds')
+    @MessagePattern(ServiceCommands.V1.Permissions.GetPermissionsByRoleIds)
     async getPermissionsByRoleIds(
         @Payload() data: GetPermissionsByRoleIdsV1RequestDto,
     ): Promise<GetPermissionsByRoleIdsV1ResponseDto[]> {

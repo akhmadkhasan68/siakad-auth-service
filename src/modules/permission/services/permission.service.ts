@@ -61,7 +61,7 @@ export class PermissionService extends PaginateService {
             }
         }
 
-        query.take(payload.perPage ?? 10);
+        query.take(payload.perPage ?? this.DefaultPerPage);
         query.skip(this.countOffset(payload));
 
         const [data, count] = await query.getManyAndCount();
