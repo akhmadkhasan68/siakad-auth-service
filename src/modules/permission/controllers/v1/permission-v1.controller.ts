@@ -15,7 +15,7 @@ import { PermissionService } from '../../services/permission.service';
 export class PermissionV1Controller {
     constructor(private readonly permissionService: PermissionService) {}
 
-    @MessagePattern(ServiceCommands.V1.Permissions.FetchPaginate)
+    @MessagePattern(ServiceCommands.AuthService.V1.Permissions.FetchPaginate)
     async fetchPaginate(
         @Payload() payload: PermissionPaginateV1RequestDto,
     ): Promise<IPaginateResponse<PermissionV1ResponseDto>> {
@@ -28,14 +28,16 @@ export class PermissionV1Controller {
         };
     }
 
-    @MessagePattern(ServiceCommands.V1.Permissions.FindOneById)
+    @MessagePattern(ServiceCommands.AuthService.V1.Permissions.FindOneById)
     async findOneById(@Payload() id: string): Promise<PermissionV1ResponseDto> {
         const data = await this.permissionService.findOneById(id);
 
         return PermissionV1ResponseDto.toResponse(data);
     }
 
-    @MessagePattern(ServiceCommands.V1.Permissions.GetPermissionsByRoleIds)
+    @MessagePattern(
+        ServiceCommands.AuthService.V1.Permissions.GetPermissionsByRoleIds,
+    )
     async getPermissionsByRoleIds(
         @Payload() data: GetPermissionsByRoleIdsV1RequestDto,
     ): Promise<GetPermissionsByRoleIdsV1ResponseDto[]> {

@@ -15,7 +15,7 @@ import { RoleService } from '../../services/role.service';
 export class RoleV1Controller {
     constructor(private readonly roleService: RoleService) {}
 
-    @MessagePattern(ServiceCommands.V1.Roles.FetchPaginate)
+    @MessagePattern(ServiceCommands.AuthService.V1.Roles.FetchPaginate)
     async fetchPaginate(
         @Payload() payload: RolePaginateV1RequestDto,
     ): Promise<IPaginateResponse<RoleV1ResponseDto>> {
@@ -27,14 +27,14 @@ export class RoleV1Controller {
         };
     }
 
-    @MessagePattern(ServiceCommands.V1.Roles.FindOneById)
+    @MessagePattern(ServiceCommands.AuthService.V1.Roles.FindOneById)
     async findOneById(@Payload() id: string): Promise<RoleV1ResponseDto> {
         const data = await this.roleService.findOneById(id);
 
         return RoleV1ResponseDto.toResponse(data);
     }
 
-    @MessagePattern(ServiceCommands.V1.Roles.Create)
+    @MessagePattern(ServiceCommands.AuthService.V1.Roles.Create)
     async create(
         @Payload() payload: CreateRoleV1RequestDto,
     ): Promise<RoleV1ResponseDto> {
@@ -43,7 +43,7 @@ export class RoleV1Controller {
         return RoleV1ResponseDto.toResponse(data);
     }
 
-    @MessagePattern(ServiceCommands.V1.Roles.Update)
+    @MessagePattern(ServiceCommands.AuthService.V1.Roles.Update)
     async update(
         @Payload() payload: UpdateRoleV1RequestDto,
     ): Promise<RoleV1ResponseDto> {
@@ -52,7 +52,7 @@ export class RoleV1Controller {
         return RoleV1ResponseDto.toResponse(data);
     }
 
-    @MessagePattern(ServiceCommands.V1.Roles.Delete)
+    @MessagePattern(ServiceCommands.AuthService.V1.Roles.Delete)
     async delete(@Payload() id: string): Promise<boolean> {
         const data = await this.roleService.delete(id);
 

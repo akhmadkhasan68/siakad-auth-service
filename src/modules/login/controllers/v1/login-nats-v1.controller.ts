@@ -13,7 +13,9 @@ import { LoginService } from '../../services/login.service';
 export class LoginNatsV1Controller {
     constructor(private readonly loginService: LoginService) {}
 
-    @MessagePattern(ServiceCommands.V1.Login.VerifyUserByEmailAndPassword)
+    @MessagePattern(
+        ServiceCommands.AuthService.V1.Login.VerifyUserByEmailAndPassword,
+    )
     async verifyUserByEmailAndPassword(
         @Payload() data: VerifyUserByEmailAndPasswordPayloadV1Dto,
     ): Promise<VerifyUserByEmailAndPasswordResponseV1Dto> {
@@ -22,14 +24,14 @@ export class LoginNatsV1Controller {
         return VerifyUserByEmailAndPasswordResponseV1Dto.toResponseDto(user);
     }
 
-    @MessagePattern(ServiceCommands.V1.Login.GetUserByEmail)
+    @MessagePattern(ServiceCommands.AuthService.V1.Login.GetUserByEmail)
     async getUserByEmail(@Payload() data: string): Promise<UserResponseV1Dto> {
         const user = await this.loginService.getUserByEmail(data);
 
         return UserResponseV1Dto.toResponseDto(user);
     }
 
-    @MessagePattern(ServiceCommands.V1.Login.GetUserById)
+    @MessagePattern(ServiceCommands.AuthService.V1.Login.GetUserById)
     async getUserById(@Payload() data: string): Promise<UserResponseV1Dto> {
         const user = await this.loginService.getUserById(data);
 
