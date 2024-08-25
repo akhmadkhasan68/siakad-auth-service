@@ -24,4 +24,9 @@ export const config = {
         delayRequestInMinutes:
             parseInt(process.env.OTP_DELAY_REQUEST_IN_MINUTES) || 1,
     },
+    forgotPassword: {
+        expirationTimeInMinutes:
+            parseInt(process.env.FORGOT_PASSWORD_EXPIRATION_TIME_IN_MINUTES) ||
+            5,
+    },
 };

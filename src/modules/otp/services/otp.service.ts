@@ -58,7 +58,7 @@ export class OtpService {
         otp.retries = currentRequest ? currentRequest.retries + 1 : 1;
 
         // Send email
-        await this.emailService.SendEmailOTP({
+        await this.emailService.sendEmailOTP({
             email: data.email,
             data: {
                 otp: code,

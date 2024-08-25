@@ -24,6 +24,13 @@ export const ServiceCommands = {
                 RequestOtp: 'auth.v1.otp.requestOtp',
                 VerifyOtp: 'auth.v1.otp.verifyOtp',
             },
+            ForgotPassword: {
+                RequestForgotPassword:
+                    'auth.v1.forgotPassword.requestForgotPassword',
+                VerifyForgotPassword:
+                    'auth.v1.forgotPassword.verifyForgotPassword',
+                ResetPassword: 'auth.v1.forgotPassword.resetPassword',
+            },
         },
     },
     NotificationService: {
@@ -32,6 +39,8 @@ export const ServiceCommands = {
                 SendEmail: 'notification.v1.email.sendEmail',
                 SendBulkEmail: 'notification.v1.email.sendBulkEmail',
                 SendEmailOTP: 'notification.v1.email.sendEmailOTP',
+                SendEmailForgotPassword:
+                    'notification.v1.email.sendEmailForgotPassword',
             },
             InApp: {
                 FetchPaginate: 'notification.v1.inApp.fetchPaginate',

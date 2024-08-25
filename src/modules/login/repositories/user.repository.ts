@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { User } from 'src/databases/entities/user.entity';
 import { IUser } from 'src/databases/interaces/user.interface';
 import { FindOneOptions, Repository } from 'typeorm';
@@ -40,6 +41,13 @@ export class UserRepository {
     }
 
     async update(id: string, user: IUser): Promise<void> {
+        await this.usersRepository.update(id, user);
+    }
+
+    async updatePassword(id: string, password: string): Promise<void> {
+        const user = await this.findById(id);
+        user.password = bcrypt.hash(password, 10);
+
         await this.usersRepository.update(id, user);
     }
 }
