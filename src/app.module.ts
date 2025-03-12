@@ -6,7 +6,7 @@ import { config } from './config';
 import { databaseConfig } from './databases/config';
 import { ForgotPasswordModule } from './modules/forgot-password/forgot-password.module';
 import { LoginModule } from './modules/login/login.module';
-import { NotificationService } from './modules/notification/notification.module';
+import { NotificationModule } from './modules/notification/notification.module';
 import { OtpModule } from './modules/otp/otp.module';
 import { PermissionModule } from './modules/permission/permission.module';
 import { RegisterModule } from './modules/register/register.module';
@@ -30,7 +30,7 @@ import { RolesModule } from './modules/roles/roles.module';
         PermissionModule,
         OtpModule,
         ForgotPasswordModule,
-        NotificationService,
+        NotificationModule,
     ],
     controllers: [],
     providers: [],

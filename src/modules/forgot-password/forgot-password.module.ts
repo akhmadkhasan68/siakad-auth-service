@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PasswordResetToken } from 'src/databases/entities/password-reset-token.entity';
 import { LoginModule } from '../login/login.module';
-import { NotificationService } from '../notification/notification.module';
+import { NotificationModule } from '../notification/notification.module';
 import { ForgotPasswordNatsV1Controller } from './controller/v1/forgot-password-nats-v1.controller';
 import { PasswordResetTokenRepository } from './repositories/password-reset-token.repository';
 import { ForgotPasswordService } from './services/forgot-password.service';
@@ -11,7 +11,7 @@ import { ForgotPasswordService } from './services/forgot-password.service';
     imports: [
         TypeOrmModule.forFeature([PasswordResetToken]),
         LoginModule,
-        NotificationService,
+        NotificationModule,
     ],
     controllers: [ForgotPasswordNatsV1Controller],
     providers: [PasswordResetTokenRepository, ForgotPasswordService],
