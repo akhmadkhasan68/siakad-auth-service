@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 dotenv.config();
 
@@ -12,4 +13,5 @@ export default new DataSource({
     database: process.env.DB_NAME || 'postgres',
     entities: ['src/databases/entities/*.entity.ts'],
     migrations: ['databases/migrations/*.ts'],
+    namingStrategy: new SnakeNamingStrategy(),
 })
