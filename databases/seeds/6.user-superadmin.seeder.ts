@@ -1,13 +1,16 @@
-import { Connection } from "typeorm";
-import { Factory, Seeder } from "typeorm-seeding";
-import { User } from "../../src/databases/entities/user.entity";
+import { DataSource } from "typeorm";
+import { Seeder, SeederFactoryManager } from "typeorm-extension";
+import { RoleAdminEnum } from "../../src/common/enums/role.enum";
 import { Role } from "../../src/databases/entities/role.entity";
-import { RoleAdminEnum } from "src/common/enums/role.enum";
+import { User } from "../../src/databases/entities/user.entity";
 
 export default class UserSuperadminSeeder implements Seeder {
-    public async run(factory: Factory, connection: Connection): Promise<void> {
-        const userRepository = connection.getRepository(User);
-        const roleRepository = connection.getRepository(Role);
+    public async run(
+        dataSource: DataSource,
+        factoryManager: SeederFactoryManager
+    ): Promise<void> {
+        const userRepository = dataSource.getRepository(User);
+        const roleRepository = dataSource.getRepository(Role);
 
         const role = await roleRepository.findOne({ where: { 
             key: RoleAdminEnum.SuperAdmin

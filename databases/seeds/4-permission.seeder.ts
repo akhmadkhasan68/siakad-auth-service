@@ -1,12 +1,15 @@
-import { PermissionConstants } from 'src/common/constants/permission.constant';
-import { Connection } from 'typeorm';
-import { Factory, Seeder } from 'typeorm-seeding';
-import { convertToTitleCase } from '../../src/common/utils/string';
-import { Permission } from '../../src/databases/entities/permission.entity';
+import { DataSource } from "typeorm";
+import { Seeder, SeederFactoryManager } from "typeorm-extension";
+import { PermissionConstants } from "../../src/common/constants/permission.constant";
+import { convertToTitleCase } from "../../src/common/utils/string";
+import { Permission } from "../../src/databases/entities/permission.entity";
 
 export default class PermissionSeeder implements Seeder {
-    public async run(factory: Factory, connection: Connection): Promise<void> {
-        const repository = connection.getRepository(Permission);
+    public async run(
+        dataSource: DataSource,
+        factoryManager: SeederFactoryManager
+    ): Promise<void> {
+        const repository = dataSource.getRepository(Permission);
 
         const permissions: string[] = this.getValues(PermissionConstants);
         if (permissions.length > 0) {

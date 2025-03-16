@@ -1,11 +1,14 @@
-import { convertToTitleCase } from "../../src/common/utils/string";
+import { DataSource } from "typeorm";
+import { Seeder, SeederFactoryManager } from "typeorm-extension";
 import { RoleGroupEnum } from "../../src/common/enums/role-group.enum";
+import { convertToTitleCase } from "../../src/common/utils/string";
 import { RoleGroup } from "../../src/databases/entities/role-group.entity";
-import { Connection } from "typeorm";
-import { Factory, Seeder } from "typeorm-seeding";
 
 export default class RoleGroupSeeder implements Seeder {
-  public async run(factory: Factory, connection: Connection): Promise<void> {
+  public async run(
+    dataSource: DataSource,
+    factoryManager: SeederFactoryManager
+  ): Promise<void> {
     const roleGroups: string[] = Object.values(RoleGroupEnum).map((value): string => {
         return value;
     });
@@ -20,6 +23,7 @@ export default class RoleGroupSeeder implements Seeder {
       };
     });
 
-    await connection.createQueryBuilder().insert().into(RoleGroup).values(values).execute();
+    const roleGroupRepository = dataSource.getRepository(RoleGroup);
+    await roleGroupRepository.save(roleGroupRepository.create(values));
   }
 }
