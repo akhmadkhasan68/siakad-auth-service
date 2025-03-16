@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
@@ -7,9 +7,15 @@ import { GlobalExceptionFilter } from './infrastructures/filters/exception.filte
 import { ExceptionFilter } from './infrastructures/filters/rpc-exception.filter';
 
 async function bootstrap() {
-    const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-        AppModule,
-        {
+    const app = await NestFactory.create(AppModule);
+
+    app.setGlobalPrefix('api/auth');
+    app.enableVersioning({
+        type: VersioningType.URI,
+        defaultVersion: '1',
+    });
+
+    app.connectMicroservice<MicroserviceOptions>({
             transport: Transport.NATS,
             options: {
                 url: config.nats.url,
@@ -24,6 +30,7 @@ async function bootstrap() {
         new ExceptionFilter(),
     );
 
-    app.listen();
+    app.startAllMicroservices();
+    app.listen(config.app.port);
 }
 bootstrap();

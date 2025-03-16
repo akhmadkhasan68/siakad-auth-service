@@ -5,6 +5,7 @@ import { ServiceClientEnum } from './common/enums/service-client.enum';
 import { config } from './config';
 import { databaseConfig } from './databases/config';
 import { ForgotPasswordModule } from './modules/forgot-password/forgot-password.module';
+import { HealthModule } from './modules/health/health.module';
 import { LoginModule } from './modules/login/login.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { OtpModule } from './modules/otp/otp.module';
@@ -24,6 +25,7 @@ import { RolesModule } from './modules/roles/roles.module';
                 },
             },
         ]),
+        HealthModule,
         LoginModule,
         RegisterModule,
         RolesModule,
