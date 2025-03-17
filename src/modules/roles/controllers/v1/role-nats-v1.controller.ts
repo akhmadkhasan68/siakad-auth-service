@@ -12,7 +12,7 @@ import { RoleService } from '../../services/role.service';
     version: '1',
     path: 'roles',
 })
-export class RoleV1Controller {
+export class RoleNATsV1Controller {
     constructor(private readonly roleService: RoleService) {}
 
     @MessagePattern(ServiceCommands.AuthService.V1.Roles.FetchPaginate)
