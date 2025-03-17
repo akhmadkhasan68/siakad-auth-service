@@ -1,9 +1,9 @@
 import { Type } from "class-transformer";
 import { IsOptional } from "class-validator";
-import { IPaginateRequest, ISortRequest } from "../interfaces/index.interface";
 import { OrderDirectionType } from "../enums/index.enum";
+import { IPaginationRequest, ISortRequest } from "../interfaces/request.interface";
 
-export class PaginateRequest implements IPaginateRequest, ISortRequest {
+export class PaginateRequest implements IPaginationRequest, ISortRequest {
     @IsOptional()
     @Type(() => Number)
     page: number;

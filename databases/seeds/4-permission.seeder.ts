@@ -1,7 +1,7 @@
+import { StringUtil } from "src/common/utils/string.util";
 import { DataSource } from "typeorm";
 import { Seeder, SeederFactoryManager } from "typeorm-extension";
 import { PermissionConstants } from "../../src/common/constants/permission.constant";
-import { convertToTitleCase } from "../../src/common/utils/string";
 import { Permission } from "../../src/databases/entities/permission.entity";
 
 export default class PermissionSeeder implements Seeder {
@@ -17,7 +17,7 @@ export default class PermissionSeeder implements Seeder {
                 (
                     permission,
                 ): { name: string; key: string; description: string } => {
-                    const permissionName = convertToTitleCase(permission);
+                    const permissionName = StringUtil.convertToTitleCase(permission);
 
                     return {
                         name: permissionName,

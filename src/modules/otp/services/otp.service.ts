@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 import { config } from 'src/config';
 import { Otp } from 'src/databases/entities/otp.entity';
 import { IOtp } from 'src/databases/interaces/otp.interface';
-import { UserRepository } from 'src/modules/login/repositories/user.repository';
 import { EmailV1Service } from 'src/modules/notification/services/v1/email-v1.service';
+import { UserRepository } from 'src/modules/user/repositories/user.repository';
 import { RequestOtpPayloadV1Dto } from '../dto/v1/request-otp/request-otp-payload-v1.dto';
 import { OtpRepository } from '../repositories/otp.repository';
 

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { RoleGroupEnum } from 'src/common/enums/role-group.enum';
-import { IPaginateResponse } from 'src/common/interfaces/index.interface';
-import { convertToUpperSnakeCase } from 'src/common/utils/string';
+import { IPaginationData } from 'src/common/interfaces/response.interface';
+import { StringUtil } from 'src/common/utils/string.util';
 import { IRole } from 'src/databases/interaces/role.interface';
 import { PaginateService } from 'src/infrastructures/services/paginate.service';
 import { CreateRoleV1RequestDto } from '../dto/requests/v1/create/create-role-v1.request';
@@ -21,7 +21,7 @@ export class RoleService extends PaginateService {
 
     async fetchPaginate(
         payload: RolePaginateV1RequestDto,
-    ): Promise<IPaginateResponse<IRole>> {
+    ): Promise<IPaginationData<IRole>> {
         const query = this.roleRepository.roleRepository
             .createQueryBuilder('role')
             .innerJoinAndSelect('role.roleGroup', 'roleGroup');
@@ -67,7 +67,7 @@ export class RoleService extends PaginateService {
         const meta = this.mapMeta(count, payload);
 
         return {
-            data,
+            items: data,
             meta,
         };
     }
@@ -77,7 +77,7 @@ export class RoleService extends PaginateService {
     }
 
     async create(payload: CreateRoleV1RequestDto): Promise<IRole> {
-        const key = convertToUpperSnakeCase(payload.name);
+        const key = StringUtil.convertToUpperSnakeCase(payload.name);
         const roleGroupAdmin = await this.roleGroupRepository.findOneByKey(
             RoleGroupEnum.Admin,
         );
@@ -100,7 +100,7 @@ export class RoleService extends PaginateService {
     async update(payload: UpdateRoleV1RequestDto): Promise<IRole> {
         const role = await this.roleRepository.findOneById(payload.id, true);
 
-        const key = convertToUpperSnakeCase(payload.name);
+        const key = StringUtil.convertToUpperSnakeCase(payload.name);
         const roleGroupAdmin = await this.roleGroupRepository.findOneByKey(
             RoleGroupEnum.Admin,
         );

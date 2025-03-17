@@ -1,7 +1,7 @@
+import { StringUtil } from "src/common/utils/string.util";
 import { DataSource } from "typeorm";
 import { Seeder, SeederFactoryManager } from "typeorm-extension";
 import { RoleGroupEnum } from "../../src/common/enums/role-group.enum";
-import { convertToTitleCase } from "../../src/common/utils/string";
 import { RoleGroup } from "../../src/databases/entities/role-group.entity";
 
 export default class RoleGroupSeeder implements Seeder {
@@ -14,7 +14,7 @@ export default class RoleGroupSeeder implements Seeder {
     });
 
     const values = roleGroups.map((roleGroup): { name: string, key: string, description: string } => {
-      const roleName = convertToTitleCase(roleGroup);
+      const roleName = StringUtil.convertToTitleCase(roleGroup);
 
       return {
         name: roleName,

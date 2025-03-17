@@ -1,13 +1,13 @@
 import { IRoleGroup } from 'src/databases/interaces/role-group.interface';
 
-export class RoleGroupV1ResponseDto {
+export class RoleGroupV1Response {
     id?: string;
     name: string;
     key: string;
     description: string;
 
-    static toResponse(data: IRoleGroup): RoleGroupV1ResponseDto {
-        const response = new RoleGroupV1ResponseDto();
+    static toResponse(data: IRoleGroup): RoleGroupV1Response {
+        const response = new RoleGroupV1Response();
         response.id = data.id;
         response.name = data.name;
         response.key = data.key;
@@ -16,7 +16,7 @@ export class RoleGroupV1ResponseDto {
         return response;
     }
 
-    static toResponses(data: IRoleGroup[]): RoleGroupV1ResponseDto[] {
+    static toResponses(data: IRoleGroup[]): RoleGroupV1Response[] {
         return data.map((item) => this.toResponse(item));
     }
 }

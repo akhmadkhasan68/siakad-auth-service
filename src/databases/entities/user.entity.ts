@@ -1,9 +1,9 @@
 import { BeforeInsert, Column, Entity, JoinTable, ManyToMany } from "typeorm";
+import { PasswordUtil } from "../../../src/common/utils/password.util";
 import { IRole } from "../interaces/role.interface";
 import { IUser } from "../interaces/user.interface";
 import { BaseEntity } from "./base.entity";
 import { Role } from "./role.entity";
-import * as bcrypt from 'bcrypt';
 
 @Entity('users')
 export class User extends BaseEntity implements IUser {
@@ -165,7 +165,6 @@ export class User extends BaseEntity implements IUser {
 
     @BeforeInsert()
     async setPassword(password: string) {
-        const salt = await bcrypt.genSalt();
-        this.password = await bcrypt.hash(password || this.password, salt);
+        this.password = await PasswordUtil.hashPassword(password);
     }
 }

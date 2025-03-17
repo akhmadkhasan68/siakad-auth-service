@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IPaginateResponse } from 'src/common/interfaces/index.interface';
+import { IPaginationData } from 'src/common/interfaces/response.interface';
 import { IPermission } from 'src/databases/interaces/permission.interface';
 import { PaginateService } from 'src/infrastructures/services/paginate.service';
 import { PermissionPaginateV1RequestDto } from '../dto/v1/index/permission-paginate-v1.request';
@@ -13,7 +13,7 @@ export class PermissionService extends PaginateService {
 
     async fetchPaginate(
         payload: PermissionPaginateV1RequestDto,
-    ): Promise<IPaginateResponse<IPermission>> {
+    ): Promise<IPaginationData<IPermission>> {
         const query = this.permissionRepository.permissionRepository
             .createQueryBuilder('permission')
             .leftJoinAndSelect('permission.roles', 'roles');
@@ -69,7 +69,7 @@ export class PermissionService extends PaginateService {
         const meta = this.mapMeta(count, payload);
 
         return {
-            data,
+            items: data,
             meta,
         };
     }

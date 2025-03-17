@@ -1,15 +1,41 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { JwtUtil } from 'src/common/utils/jwt.util';
 import { config } from 'src/config';
 import { IUser } from 'src/databases/interaces/user.interface';
+import { UserRepository } from '../../user/repositories/user.repository';
+import { LoginV1Request } from '../dto/v1/login/login-v1.request';
 import { VerifyUserByEmailAndPasswordPayloadV1Dto } from '../dto/v1/verify-user-by-email-and-password/verify-user-by-email-and-password-payload-v1.dto';
-import { UserRepository } from '../repositories/user.repository';
 
 @Injectable()
 export class LoginService {
-    constructor(private readonly userRepository: UserRepository) {}
+    constructor(
+        private readonly userRepository: UserRepository,
+        private readonly jwtService: JwtService,
+    ) {}
 
-    async verifyUserByEmailAndPassword(
+    async login(data: LoginV1Request): Promise<{
+        user: IUser;
+        token: string;
+    }> {
+        const user = await this.verifyUserByEmailAndPassword({
+            email: data.email,
+            password: data.password,
+        });
+
+        const token = JwtUtil.generateToken(
+            user,
+            this.jwtService,
+        );
+
+        return {
+            user,
+            token,
+        };
+    }
+
+    private async verifyUserByEmailAndPassword(
         data: VerifyUserByEmailAndPasswordPayloadV1Dto,
     ): Promise<IUser> {
         const user = await this.userRepository.findByEmail(data.email, true);

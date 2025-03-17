@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { IApiResponse } from "src/common/interfaces/response.interface";
-import { VerifyUserByEmailAndPasswordPayloadV1Dto } from "../../dto/v1/verify-user-by-email-and-password/verify-user-by-email-and-password-payload-v1.dto";
-import { VerifyUserByEmailAndPasswordResponseV1Dto } from "../../dto/v1/verify-user-by-email-and-password/verify-user-by-email-and-password-response-v1.dto";
+import { LoginV1Request } from "../../dto/v1/login/login-v1.request";
+import { LoginV1Response } from "../../dto/v1/login/login-v1.response";
 import { LoginService } from "../../services/login.service";
 
 @Controller({
@@ -15,14 +15,17 @@ export class LoginHttpV1Controller {
 
     @Post()
     @HttpCode(HttpStatus.OK)
-    async verifyUserByEmailAndPassword(
-        @Body() data: VerifyUserByEmailAndPasswordPayloadV1Dto,
-    ): Promise<IApiResponse<VerifyUserByEmailAndPasswordResponseV1Dto>> {
-        const user = await this.loginService.verifyUserByEmailAndPassword(data);
+    async login(
+        @Body() data: LoginV1Request,
+    ): Promise<IApiResponse<LoginV1Response>> {
+        const {
+            user,
+            token
+        } = await this.loginService.login(data);
 
         return {
-            message: 'User verified successfully',
-            data: VerifyUserByEmailAndPasswordResponseV1Dto.toResponseDto(user)
+            message: 'Login success',
+            data: LoginV1Response.toResponse(user, token)
         };
     }
 }

@@ -1,9 +1,15 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { ClientsModule, RpcException, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServiceClientEnum } from './common/enums/service-client.enum';
 import { config } from './config';
 import { databaseConfig } from './databases/config';
+import { EntityNotFoundExceptionFilter, HttpExceptionFilter } from './infrastructures/filters/http-exception.filter';
+import { ResponseInterceptor } from './infrastructures/interceptors/response.interceptor';
+import { TransformInterceptor } from './infrastructures/interceptors/transform.interceptor';
+import { SnakeToCamelPipe } from './infrastructures/pipes/snake-to-camel.pipe';
+import { ValidationPipe } from './infrastructures/pipes/validation.pipe';
 import { ForgotPasswordModule } from './modules/forgot-password/forgot-password.module';
 import { HealthModule } from './modules/health/health.module';
 import { LoginModule } from './modules/login/login.module';
@@ -35,7 +41,36 @@ import { RolesModule } from './modules/roles/roles.module';
         NotificationModule,
     ],
     controllers: [],
-    providers: [],
+    providers: [
+        {
+            provide: APP_FILTER,
+            useClass: HttpExceptionFilter,
+        },
+        {
+            provide: APP_FILTER,
+            useClass: RpcException
+        },
+        {
+            provide: APP_FILTER,
+            useClass: EntityNotFoundExceptionFilter
+        },
+        {
+            provide: APP_PIPE,
+            useClass: ValidationPipe,
+        },
+        {
+            provide: APP_PIPE,
+            useClass: SnakeToCamelPipe,
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: TransformInterceptor,
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: ResponseInterceptor,
+        }
+    ],
     exports: [ClientsModule],
 })
 export class AppModule {}
